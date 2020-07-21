@@ -1,0 +1,94 @@
+NavigationLayout:
+    MDNavigationDrawer:
+
+        drawer_logo: "Bier.jpg"
+
+        NavigationDrawerSubheader:
+            text: "Biermarathon"
+
+        NavigationDrawerIconButton:
+            text: "Karte"
+            icon: "map"
+            on_release:
+                screen_manager.current = "map"
+        NavigationDrawerIconButton:
+            text: "Zeit"
+            icon: "clock"
+            on_release:
+                screen_manager.current = "time"
+        NavigationDrawerIconButton:
+            text: "Logout"
+            icon: "logout"
+            on_release:
+                screen_manager.current = "login"
+
+    BoxLayout:
+        orientation: 'vertical'
+        MDToolbar:
+            title: "Biermarathon"
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [['menu', lambda x: root.toggle_nav_drawer()]]
+            elevation: 8
+        ScreenManager:
+            id: screen_manager
+            Screen:
+                name: "login"
+
+                MDTextField:
+                    id: team_name
+                    hint_text: "Teamname"
+                    helper_text: "Maximal 20 Characters"
+                    helper_text_mode: "on_focus"
+
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                    icon: "android"
+                    size_hint_x: 0.7
+                    icon_right: "android"
+                    icon_right_color:  app.theme_cls.primary_color
+
+                MDLabel:
+                    text: "Login"
+                    font_size: 40
+                    halign: "center"
+                    pos_hint: {"center_y": 0.7}
+
+                MDRoundFlatIconButton:
+                    text: "Weiter"
+                    icon: "android"
+                    pos_hint: {"center_x": 0.5, "y": 0.1}
+                    on_press: screen_manager.current = "map"
+                    on_press: app.weiter_btn()
+
+
+
+
+
+
+            Screen:
+                name: "map"
+                Image:
+                    source: "Koblenz.jpg"
+                    pos_hint: {"center_y": 0.7}
+                MDTextField:
+                    id: input
+                    hint_text: "Checkpointcode"
+                    helper_text: "8-stelliger Code"
+                    helper_text_mode: "on_focus"
+                    max_text_length: 8
+                    pos_hint: {"center_x": 0.5, "center_y": 0.3}
+                    size_hint_x: 0.7
+                    icon_right_color:  app.theme_cls.primary_color
+                MDFloatingActionButton:
+                    icon: "camera"
+                    theme_text_color: "Custom"
+                    text_color: [1,1,1,1]
+                    md_bg_color: app.theme_cls.primary_color
+                    pos_hint: {"center_x": 0.5, "y": 0.02}
+                    on_release: app.starttime()
+
+            Screen:
+                name: "time"
+
+                MDLabel:
+                    text: "test"
+                    pos_hint: {"center_x": 0.5, "center_y": 0.5}
