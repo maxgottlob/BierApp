@@ -10,8 +10,25 @@ Window.size = (300, 500)
 
 
 class MainApp(App):
-
     url = 'https://testapp-4a3b0.firebaseio.com/.json'
+
+    def get_teams(self):
+
+        result = requests.get("https://testapp-4a3b0.firebaseio.com/.json")
+        data = json.loads(result.content.decode())
+        Namen = list(data.keys())
+        global name1
+        name1 = (Namen[0])
+        global name2
+        name2 = (Namen[1])
+        global name3
+        name3 = (Namen[2])
+        global name4
+        name4 = (Namen[3])
+        global name5
+        name5 = (Namen[4])
+
+
 
     def weiter_btn(self):
 
@@ -45,6 +62,23 @@ class MainApp(App):
             to_database = json.loads(name)
             requests.patch(url=self.url, json=to_database)
 
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Start.text = "Startzeit: " + data.get("Start")
+            self.root.ids.Check1.text = "Delta Checkpoint 1: "
+            self.root.ids.Check2.text = "Delta Checkpoint 2: "
+            self.root.ids.Check3.text = "Delta Checkpoint 3: "
+            self.root.ids.Check4.text = "Delta Checkpoint 4: "
+            self.root.ids.Check5.text = "Delta Checkpoint 5: "
+            self.root.ids.Ziel.text = "Delta Ziel: "
+
+            toast("Startzeit: " + data.get("Start"))
+
+
+
+
+
+
         elif input == "95761243" and 1 not in _keys and 0 in _keys:
             _keys.append(1)
             then1 = datetime.now()
@@ -67,6 +101,17 @@ class MainApp(App):
 
             to_database = json.loads(name)
             requests.patch(url=self.url, json=to_database)
+
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Check1.text = "Delta Checkpoint 1: " + data.get("Checkpoint 1")
+            self.root.ids.Check2.text = "Delta Checkpoint 2: "
+            self.root.ids.Check3.text = "Delta Checkpoint 3: "
+            self.root.ids.Check4.text = "Delta Checkpoint 4: "
+            self.root.ids.Check5.text = "Delta Checkpoint 5: "
+            self.root.ids.Ziel.text = "Delta Ziel: "
+
+            toast("Zeit: " + data.get("Checkpoint 1"))
 
         elif input == "59129853" and 2 not in _keys and 1 in _keys:
             _keys.append(2)
@@ -92,6 +137,19 @@ class MainApp(App):
             to_database = json.loads(name)
             requests.patch(url=self.url, json=to_database)  # z = Startzeit // d = Check1 // e = Check2
 
+            to_database = json.loads(name)
+            requests.patch(url=self.url, json=to_database)
+
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Check2.text = "Delta Checkpoint 2: " + data.get("Checkpoint 2")
+            self.root.ids.Check3.text = "Delta Checkpoint 3: "
+            self.root.ids.Check4.text = "Delta Checkpoint 4: "
+            self.root.ids.Check5.text = "Delta Checkpoint 5: "
+            self.root.ids.Ziel.text = "Delta Ziel: "
+
+            toast("Zeit: " + data.get("Checkpoint 2"))
+
         elif input == "98716322" and 3 not in _keys and 2 in _keys:
             _keys.append(3)
             then3 = datetime.now()
@@ -116,6 +174,15 @@ class MainApp(App):
 
             to_database = json.loads(name)
             requests.patch(url=self.url, json=to_database)  # z = Startzeit // d = Check1 // e = Check2 // g = Check3
+
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Check3.text = "Delta Checkpoint 3: " + data.get("Checkpoint 3")
+            self.root.ids.Check4.text = "Delta Checkpoint 4: "
+            self.root.ids.Check5.text = "Delta Checkpoint 5: "
+            self.root.ids.Ziel.text = "Delta Ziel: "
+
+            toast("Zeit: " + data.get("Checkpoint 3"))
 
         elif input == "23475641" and 4 not in _keys and 3 in _keys:
             _keys.append(4)
@@ -143,6 +210,14 @@ class MainApp(App):
             to_database = json.loads(name)
             requests.patch(url=self.url,
                            json=to_database)  # z = Startzeit // d = Check1 // e = Check2 // g = Check3 // i = Check4
+
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Check4.text = "Delta Checkpoint 4: " + data.get("Checkpoint 4")
+            self.root.ids.Check5.text = "Delta Checkpoint 5: "
+            self.root.ids.Ziel.text = "Delta Ziel: "
+
+            toast("Zeit: " + data.get("Checkpoint 4"))
 
         elif input == "91175234" and 5 not in _keys and 4 in _keys:
             _keys.append(5)
@@ -172,6 +247,13 @@ class MainApp(App):
             requests.patch(url=self.url,
                            json=to_database)  # z = Startzeit // d = Check1 // e = Check2 // g = Check3 // i = Check4 // k = Check5
 
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Check5.text = "Delta Checkpoint 5: " + data.get("Checkpoint 5")
+            self.root.ids.Ziel.text = "Delta Ziel: "
+
+            toast("Zeit: " + data.get("Checkpoint 5"))
+
         elif input == "99993451" and 6 not in _keys and 5 in _keys:
             _keys.append(6)
             then6 = datetime.now()
@@ -183,7 +265,7 @@ class MainApp(App):
             print("6. Zeitabschnitt: ", tdelta6)
 
             global m
-            m = tdelta6
+            m = str(tdelta6)
             b = '", "Checkpoint 1": "'
             c = '", "Checkpoint 2": "'
             f = '", "Checkpoint 3": "'
@@ -200,6 +282,12 @@ class MainApp(App):
             to_database = json.loads(name)
             requests.patch(url=self.url,
                            json=to_database)  # z = Startzeit // d = Check1 // e = Check2 // g = Check3 // i = Check4 // k = Check5 // m = Ziel
+
+            result = requests.get("https://testapp-4a3b0.firebaseio.com/" + self.root.ids.team_name.text + ".json")
+            data = json.loads(result.content.decode())
+            self.root.ids.Ziel.text = "Delta Ziel: " + data.get("Ziel")
+
+            toast("Zeit: " + data.get("Ziel"))
 
         else:
             toast("Ungültiger Checkpoint")
