@@ -1,14 +1,11 @@
 from kivy.app import App
 from kivymd.theming import ThemeManager
-from kivy.core.window import Window
 from datetime import datetime
 from kivymd.toast import toast
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 import requests
 import json
-
-Window.size = (300, 500)
 
 
 class Y(FloatLayout):
@@ -21,10 +18,25 @@ class N(FloatLayout):
 
 class MainApp(App):
 
-    def show_popup_y(self):
-        show = Y()
-        popup_window = Popup(title="", content=show, size_hint=(None, None), size=(220, 100))
-        popup_window.open()
+    def patch_team(self):
+
+        if self.root.ids.devtext.text != "":
+            name = ('{"' + self.root.ids.devtext.text + '": {"Checkpoint1": {"Zeit": "0"}, "Checkpoint2": {"Zeit": "0"}, "Checkpoint3": {"Zeit": "0"}, "Checkpoint4": {"Zeit": "0"}, "Checkpoint5": {"Zeit": "0"}, "Start": {"Zeit": "0"}, "Ziel": {"Zeit": "0"}}}')
+            to_database = json.loads(name)
+            requests.patch(url="https://testapp-4a3b0.firebaseio.com/.json", json=to_database)
+        else:
+            toast("insufficient name")
+
+    def check_reset(self):
+
+        if self.root.ids.devtext.text != "":
+            f = open("Stats.txt", "w+")
+            f.write(self.root.ids.devtext.text)
+            f.close()
+            toast("Checkpoint changed")
+        else:
+            toast("not a valid checkpoint")
+
 
     def show_popup_n(self):
         show = N()
@@ -36,9 +48,10 @@ class MainApp(App):
         result = requests.get("https://testapp-4a3b0.firebaseio.com/.json")
         data = json.loads(result.content.decode())
         key = data.keys()
-        if self.root.ids.team_name.text in key:
-            print("Ja")
-            self.show_popup_y()
+        if self.root.ids.team_name.text == "admin":
+            self.root.ids.screen_manager.current = 'dev'
+
+        elif self.root.ids.team_name.text in key and self.root.ids.team_name.text != "admin":
             f = open("Stats.txt", "a+")
             f.close()
 
@@ -50,8 +63,9 @@ class MainApp(App):
             self.root.ids.check5.text = "Zwischenzeit 5: "
             self.root.ids.ziel.text = "Final-Zeit: "
 
+            self.root.ids.screen_manager.current = 'time'
+
         else:
-            print("Nein")
             self.show_popup_n()
 
     def starttime(self):
@@ -67,7 +81,6 @@ class MainApp(App):
                 f = open("Stats.txt", "w+")
                 f.write("S")
                 f.close()
-                global now
                 now = datetime.now()
                 print("Startzeit: ", now.strftime("%H:%M:%S"))
 
@@ -431,6 +444,17 @@ class MainApp(App):
                     self.root.ids.Check5.text = data_check5
                     self.root.ids.Ziel.text = m
 
+                    a = '{"'
+                    c = self.root.ids.team_name.text
+                    n = '": "'
+
+                    name2 = (a + c + n + m + b)
+
+                    to2_database = json.loads(name2)
+                    requests.patch(
+                        url="https://testapp-4a3b0.firebaseio.com/Zieleinlauf.json",
+                        json=to2_database)
+
                     toast("Zeit: " + m)
 
                 else:
@@ -449,4 +473,5 @@ class MainApp(App):
     theme_cls.theme_style = 'Light'
 
 
-MainApp().run()
+if __name__ == '__main__':
+    MainApp().run()
